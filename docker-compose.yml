@@ -2,6 +2,7 @@ version: '3.5'
 
 services:
    mysql-wordpress:
+     container_name : mysql-wordpress
      image: mysql:5.7
      volumes:
        - db_data:/var/lib/mysql
@@ -13,12 +14,15 @@ services:
        #MYSQL_PASSWORD: wordpress
 
    wordpress:
+     container_name : wordpress-christmas
      depends_on:
-       - db
+       - mysql-wordpress
      image: wordpress:latest
      ports:
-       - "8000:80"
+       - "8100:80"
      restart: always
+     volumes:
+       - .:/var/www/html
      environment:
        WORDPRESS_DB_HOST: mysql-wordpress:3306
        WORDPRESS_DB_USER: root
